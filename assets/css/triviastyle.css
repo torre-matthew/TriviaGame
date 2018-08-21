@@ -6,6 +6,10 @@ body {
 
 .container {
     margin-top: 100px;
+    /* background: url("../images/coco.jpg");
+    background-repeat: no-repeat;
+    background-size: contain; */
+    height: 900px;
 }
 
 .choice {
@@ -18,9 +22,8 @@ body {
 
 .choice:hover {
     text-align: center;
-    font-size: 24px;
-    padding: 10px 3px;
-    border: solid black 3px;
+    font-size: 26px;
+    border: solid green 3px;
 
 }
 
