@@ -27,6 +27,8 @@ let choices = [
     ["Correct", "Incorrect", "Incorrect", "Incorrect"],
 ];
 
+let perQuestionTime = 15;
+
 
 // For building the question row div
 let divs = $("<div>");
@@ -84,6 +86,21 @@ qChoiceTwoCol.append(qChoiceTwoDiv);
 qChoiceThreeCol.append(qChoiceThreeDiv);
 qChoiceFourCol.append(qChoiceFourDiv);
 
+function perQuestionCountDown () {
+        $(".timer-area").text(perQuestionTime);
+        perQuestionTime--;
+        if (perQuestionTime > 0) {
+        $(".timer-area").text(perQuestionTime); 
+    }else {
+        $(".timer-area").text("Times up");
+        setTimeout(serveSecondQuestion, 1000*1);
+    }
+}
+
+// function resetTimer () {
+//     perQuestionTime;
+// }
+
 
 function serveFirstQuestion () {
 qContext = p.text(question[0]);
@@ -136,5 +153,5 @@ $(".choice-area2").append(qChoiceThreeCol, qChoiceFourCol);
     // Unanswered
 
 
-    setTimeout(serveFirstQuestion, 1000 * 2);
-    setTimeout(serveSecondQuestion, 1000 * 4);
+    serveFirstQuestion();
+    setInterval(perQuestionCountDown, 1000);
