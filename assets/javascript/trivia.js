@@ -27,7 +27,34 @@ let choices = [
     ["Correct", "Incorrect", "Incorrect", "Incorrect"],
 ];
 
+let correctChoice = [
+    "The Good Dinosaur", 
+    "Earth", 
+    "Bear", 
+    "Correct", 
+    "Correct", 
+    "Correct", 
+    "Correct", 
+    "Correct", 
+    "Correct", 
+    "Correct"
+];
+
+let correctChoiceImage = [
+    "../images/the-good-dinosaur.jpg", 
+    "../images/walle.jpg", 
+    "../images/bravemotherbear.gif", 
+    "Image", 
+    "Image", 
+    "Image", 
+    "Image", 
+    "Image", 
+    "Image", 
+    "Image"
+];
+
 let perQuestionTime = 15;
+let questionCount = 0;
 
 
 // For building the question row div
@@ -86,48 +113,58 @@ qChoiceTwoCol.append(qChoiceTwoDiv);
 qChoiceThreeCol.append(qChoiceThreeDiv);
 qChoiceFourCol.append(qChoiceFourDiv);
 
+function serveQuestion () {
+    qContext = p.text(question[questionCount]);
+    qChoiceOneText = choiceOneDiv.text(choices[questionCount][0]);
+    qChoiceTwoText = choiceTwoDiv.text(choices[questionCount][1]);
+    qChoiceThreeText = choiceThreeDiv.text(choices[questionCount][2]);
+    qChoiceFourText = choiceFourDiv.text(choices[questionCount][3]); 
+    
+    $(".question-area").append(qColDiv);
+    $(".choice-area1").append(qChoiceOneCol, qChoiceTwoCol);
+    $(".choice-area2").append(qChoiceThreeCol, qChoiceFourCol);    
+}
+
+function serveInitialState() {
+    $(".intro-text").append("<div class='col'>" + "<p id='welcome'> Pixar has given us so many great movies over the years. Test your knowledge of all things Pixar with this trivia challenge." + "</p>" + "</div>");                         
+    $(".ins").append("<div class='col'>" + "<p id='game-ins'> You'll have 30 seconds per questions to answer 20 questions. Good Luck!" + "</p>" + "</div>");
+    $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg'> Start Game!!" + "</button>" + "</div>");
+}
+
+function correctAnswerExperience() {
+    $(".result-display").append("<div class='col'>" + "<p id='correct'> Correct!!" + "</p>" + "</div>");
+    $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
+}
+
+function wrongAnswerExperience () {
+    $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, that's incorrect." + "</p>" + "</div>");
+    $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
+    $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[0] + "</p>" + "</div>");
+
+}
+
 function perQuestionCountDown () {
-        $(".timer-area").text(perQuestionTime);
-        perQuestionTime--;
+    let countDown = setInterval(countDownLogic, 1000);    
+    
+    function countDownLogic () {
         if (perQuestionTime > 0) {
-        $(".timer-area").text(perQuestionTime); 
-    }else {
-        $(".timer-area").text("Times up");
-        setTimeout(serveSecondQuestion, 1000*1);
+            $(".timer-area").text(perQuestionTime);
+            perQuestionTime--;
+        }else {
+            clearInterval(countDown);
+            $(".timer-area").text("Times up");
+            
+        }
     }
 }
 
-// function resetTimer () {
-//     perQuestionTime;
-// }
-
-
-function serveFirstQuestion () {
-qContext = p.text(question[0]);
-qChoiceOneText = choiceOneDiv.text(choices[0][0]);
-qChoiceTwoText = choiceTwoDiv.text(choices[0][1]);
-qChoiceThreeText = choiceThreeDiv.text(choices[0][2]);
-qChoiceFourText = choiceFourDiv.text(choices[0][3]); 
-
-$(".question-area").append(qColDiv);
-$(".choice-area1").append(qChoiceOneCol, qChoiceTwoCol);
-$(".choice-area2").append(qChoiceThreeCol, qChoiceFourCol);
-
+function resetTimer () {
+    perQuestionTime = 30;
+    $(".timer-area").text(perQuestionTime);
 }
 
-function serveSecondQuestion () {
+wrongAnswerExperience();
 
-qContText = p.text(question[1]);
-qChoiceOneText = choiceOneDiv.text(choices[1][0]);
-qChoiceTwoText = choiceTwoDiv.text(choices[1][1]);
-qChoiceThreeText = choiceThreeDiv.text(choices[1][2]);
-qChoiceFourText = choiceFourDiv.text(choices[1][3]);
-
-$(".question-area").append(qColDiv);
-$(".choice-area1").append(qChoiceOneCol, qChoiceTwoCol);
-$(".choice-area2").append(qChoiceThreeCol, qChoiceFourCol);
-    
-}
 
 
 // Function that will reveal the first question when user selects to start the game.
@@ -151,7 +188,4 @@ $(".choice-area2").append(qChoiceThreeCol, qChoiceFourCol);
     // Correctly Answered questions
     // Incorrect
     // Unanswered
-
-
-    serveFirstQuestion();
-    setInterval(perQuestionCountDown, 1000);
+    
