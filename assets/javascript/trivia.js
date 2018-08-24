@@ -53,7 +53,7 @@ let correctChoiceImage = [
     "Image"
 ];
 
-let perQuestionTime = 15;
+let perQuestionTime = 5;
 let questionCount = 0;
 
 
@@ -152,18 +152,26 @@ function perQuestionCountDown () {
             perQuestionTime--;
         }else {
             clearInterval(countDown);
-            $(".timer-area").text("Times up");
+            serveQuestion();
             
         }
     }
 }
 
 function resetTimer () {
-    perQuestionTime = 30;
+    perQuestionTime = 5;
     $(".timer-area").text(perQuestionTime);
 }
 
-wrongAnswerExperience();
+serveInitialState();
+
+$(document).on("click", ".btn", function (event){
+    $(".row").empty();
+    questionCount = 0;
+    serveQuestion();
+    perQuestionCountDown();
+    questionCount++;
+});
 
 
 
