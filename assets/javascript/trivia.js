@@ -53,7 +53,7 @@ let correctChoiceImage = [
     "Image"
 ];
 
-let perQuestionTime = 5;
+let perQuestionTime = 3;
 let questionCount = 0;
 
 
@@ -113,6 +113,7 @@ qChoiceTwoCol.append(qChoiceTwoDiv);
 qChoiceThreeCol.append(qChoiceThreeDiv);
 qChoiceFourCol.append(qChoiceFourDiv);
 
+// Function to display questions and choices.
 function serveQuestion () {
     qContext = p.text(question[questionCount]);
     qChoiceOneText = choiceOneDiv.text(choices[questionCount][0]);
@@ -125,28 +126,32 @@ function serveQuestion () {
     $(".choice-area2").append(qChoiceThreeCol, qChoiceFourCol);    
 }
 
+// Welcom Screen
 function serveInitialState() {
     $(".intro-text").append("<div class='col'>" + "<p id='welcome'> Pixar has given us so many great movies over the years. Test your knowledge of all things Pixar with this trivia challenge." + "</p>" + "</div>");                         
     $(".ins").append("<div class='col'>" + "<p id='game-ins'> You'll have 30 seconds per questions to answer 20 questions. Good Luck!" + "</p>" + "</div>");
     $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg'> Let's get to it!!" + "</button>" + "</div>");
 }
 
+// When the user gets the answer correct, this builds the experience they'll see before being moved on to the next question.
 function correctAnswerExperience() {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Correct!!" + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
 }
 
+// When the user gets the answer wrong, this builds the experience they'll see before being moved on to the next question.
 function wrongAnswerExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, that's incorrect." + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
-    $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[0] + "</p>" + "</div>");
+    $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
 
 }
 
+// When the user runs out of time, this builds the experience they'll see before being moved on to the next question.
 function outOfTimeExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, time's up!" + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
-    $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[0] + "</p>" + "</div>");
+    $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
 
 }
 
@@ -154,22 +159,33 @@ function perQuestionCountDown () {
     let countDown = setInterval(countDownLogic, 1000);    
     
     function countDownLogic () {
-        if (perQuestionTime > 0) {
+        if (perQuestionTime >= 0) {
             $(".timer-area").text(perQuestionTime);
             perQuestionTime--;
-        }else {
-            clearInterval(countDown);
+            
+        }
+        
+        if (perQuestionTime === 0) {
             $(".row").empty();
             outOfTimeExperience();
-            
+            clearInterval(countDown);
+            setTimeout(cycleThroughQuestions,1000*3);
         }
     }
 }
 
-function resetTimer () {
-    perQuestionTime = 5;
-    $(".timer-area").text(perQuestionTime);
+function cycleThroughQuestions() {
+    if (questionCount < question.length) {
+        questionCount++;
+        $(".row").empty();
+        serveQuestion();
+        perQuestionTime = 3;
+        perQuestionCountDown();
+    }else {
+        alert("Game Over Sucka!!");
+    }
 }
+
 
 serveInitialState();
 
@@ -178,7 +194,7 @@ $(document).on("click", ".btn", function (event){
     questionCount = 0;
     serveQuestion();
     perQuestionCountDown();
-    questionCount++;
+    
 });
 
 
