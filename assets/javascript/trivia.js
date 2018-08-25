@@ -128,7 +128,7 @@ function serveQuestion () {
 function serveInitialState() {
     $(".intro-text").append("<div class='col'>" + "<p id='welcome'> Pixar has given us so many great movies over the years. Test your knowledge of all things Pixar with this trivia challenge." + "</p>" + "</div>");                         
     $(".ins").append("<div class='col'>" + "<p id='game-ins'> You'll have 30 seconds per questions to answer 20 questions. Good Luck!" + "</p>" + "</div>");
-    $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg'> Start Game!!" + "</button>" + "</div>");
+    $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg'> Let's get to it!!" + "</button>" + "</div>");
 }
 
 function correctAnswerExperience() {
@@ -143,6 +143,13 @@ function wrongAnswerExperience () {
 
 }
 
+function outOfTimeExperience () {
+    $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, time's up!" + "</p>" + "</div>");
+    $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
+    $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[0] + "</p>" + "</div>");
+
+}
+
 function perQuestionCountDown () {
     let countDown = setInterval(countDownLogic, 1000);    
     
@@ -152,7 +159,8 @@ function perQuestionCountDown () {
             perQuestionTime--;
         }else {
             clearInterval(countDown);
-            serveQuestion();
+            $(".row").empty();
+            outOfTimeExperience();
             
         }
     }
