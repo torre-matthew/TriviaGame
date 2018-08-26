@@ -46,7 +46,7 @@ let correctChoice = [
 "Disgust",
 "It's Ridiculous",
 "Scarers",
-"Mama Elena",
+"Abuelita Elena",
 "Baby Blue",
 ];
 
@@ -66,7 +66,7 @@ let correctChoiceImage = [
     "<img src='assets/images/materbabyblue.jpg'>", 
 ];
 
-let perQuestionTime = 5;
+let perQuestionTime = 20;
 let questionCount = 0;
 let countDown;
 let correct = 0;
@@ -148,7 +148,7 @@ function serveQuestion () {
 // Welcom Screen
 function serveInitialState() {
     $(".intro-text").append("<div class='col'>" + "<p id='welcome'> Pixar has given us so many great movies over the years. Test your knowledge of all things Pixar with this trivia challenge." + "</p>" + "</div>");                         
-    $(".ins").append("<div class='col'>" + "<p id='game-ins'> You'll have 30 seconds per questions to answer 20 questions. Good Luck!" + "</p>" + "</div>");
+    $(".ins").append("<div class='col'>" + "<p id='game-ins'> You'll have 20 seconds per questions to answer 13 questions. Good Luck!" + "</p>" + "</div>");
     $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg'> Let's get to it!!" + "</button>" + "</div>");
 }
 
@@ -162,7 +162,7 @@ function serveEndState() {
 function correctAnswerExperience() {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Correct!!" + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
-    setTimeout(actionsBasedOnCount,1000*5);
+    setTimeout(actionsBasedOnCount,1000*3);
 }
 
 // When the user gets the answer wrong, this builds the experience they'll see before being moved on to the next question.
@@ -170,7 +170,7 @@ function wrongAnswerExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, that's incorrect." + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
     $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
-    setTimeout(actionsBasedOnCount,1000*5);
+    setTimeout(actionsBasedOnCount,1000*6);
 
 }
 
@@ -179,7 +179,7 @@ function outOfTimeExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, time's up!" + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
     $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
-    setTimeout(actionsBasedOnCount,1000*5);
+    setTimeout(actionsBasedOnCount,1000*6);
 }
 
 function actionsBasedOnTime () {
@@ -205,32 +205,28 @@ function actionsBasedOnTime () {
 
 function actionsBasedOnCount() {
     console.log(userSelection === correctChoice[questionCount]);
-    if (questionCount < question.length) {
+    if (questionCount < (question.length - 1)) {
         questionCount++;
         console.log("Question Count: " + questionCount);
         console.log("Array length: " + question.length);
         $(".row").empty();
         serveQuestion();
-        perQuestionTime = 5;
+        perQuestionTime = 20;
         actionsBasedOnTime();
-    }else if (questionCount === question.length) {
+    }else {
+        $(".row").empty();
         serveEndState();
     }
-    
 }
 
 
 serveInitialState();
-// serveEndState();
 
 $(document).on("click", ".btn", function (event){
     $(".row").empty();
     questionCount = 0;
     serveQuestion();
     actionsBasedOnTime();
-    
-    
-    
 });
 
 $(document).on("click", ".choice", function (event){
@@ -249,25 +245,16 @@ $(document).on("click", ".choice", function (event){
         wrongAnswerExperience();
         clearInterval(countDown);
     }
-    
-    console.log("Correct Count: " + correct);
-    console.log("Incorrect Count: " + incorrect);
         
 });
 
 $(document).on("click", ".play-again", function (event){
     questionCount = 0;
-    perQuestionTime = 5;
+    perQuestionTime = 20;
     correct = 0;
     incorrect = 0;
     notAnswered = 0;
+    $(".row").empty();
     serveQuestion();
 });
-
-// Run out of time in the middle of the game
-// Run out of time on last question
-// Correct in the middle of the game
-// Correct last question
-// Wrong in the middle of the game
-// Wrong on last question
     
