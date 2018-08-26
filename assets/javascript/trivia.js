@@ -29,9 +29,9 @@ let correctChoice = [
 ];
 
 let correctChoiceImage = [
-    "assets/images/the-good-dinosaur.jpg", 
-    "assets/images/the-good-dinosaur.jpg", 
-    "assets/images/the-good-dinosaur.jpg", 
+    "<img src='assets/images/the-good-dinosaur.jpg'>", 
+    "<img src='assets/images/the-good-dinosaur.jpg'>", 
+    "<img src='assets/images/the-good-dinosaur.jpg'>", 
 ];
 
 let perQuestionTime = 5;
@@ -127,17 +127,15 @@ function serveEndState() {
 
 // When the user gets the answer correct, this builds the experience they'll see before being moved on to the next question.
 function correctAnswerExperience() {
-    image = correctChoiceImage[questionCount];
-    console.log(image); 
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Correct!!" + "</p>" + "</div>");
-    $(".result-image").append("<div class='col'>" + '<img src="image">' + "</div>");
+    $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
     setTimeout(cycleThroughQuestions,1000*5);
 }
 
 // When the user gets the answer wrong, this builds the experience they'll see before being moved on to the next question.
 function wrongAnswerExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, that's incorrect." + "</p>" + "</div>");
-    $(".result-image").append("<div class='col'>" + "<img src='correctChoiceImage[questionCount]'>" + "</div>");
+    $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
     $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
     setTimeout(cycleThroughQuestions,1000*5);
 
@@ -146,7 +144,7 @@ function wrongAnswerExperience () {
 // When the user runs out of time, this builds the experience they'll see before being moved on to the next question.
 function outOfTimeExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, time's up!" + "</p>" + "</div>");
-    $(".result-image").append("<div class='col'>" + "<img src='correctChoiceImage[questionCount]'>" + "</div>");
+    $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
     $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
     setTimeout(cycleThroughQuestions,1000*5);
 
@@ -222,11 +220,10 @@ $(document).on("click", ".choice", function (event){
 });
 
 $(document).on("click", ".play-again", function (event){
-    $(".row").empty();
     questionCount = 0;
     perQuestionTime = 5;
     correct = 0;
-    incorrect = 0;;
+    incorrect = 0;
     notAnswered = 0;
     serveQuestion();
     perQuestionCountDown();
