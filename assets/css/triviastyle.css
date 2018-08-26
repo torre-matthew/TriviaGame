@@ -12,18 +12,24 @@ body {
     height: 900px;
 }
 
+#timer {
+    font-size: 30px;
+    text-align: right;
+}
+
 .choice {
     text-align: center;
     font-size: 20px;
     padding: 10px 3px;
-    border: solid black 3px;
+    background-color: #f28c83;
+    color: white;
 
 }
 
 .choice:hover {
     text-align: center;
-    font-size: 26px;
-    border: solid green 3px;
+    border: solid #f28c83 1px;
+    background-color: #0069d9;
 
 }
 
@@ -60,4 +66,9 @@ img {
     margin-right: auto;
     height: 400px;
     width: 500px;
+}
+
+.btn {
+    background-color: #f28c83;
+    border-color: #f28c83; 
 }

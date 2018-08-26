@@ -1,37 +1,69 @@
-// "Since 2006, Pixar has released at least one film per year. In 2014 however, that was not the case. Which film's delay caused this?",
-//     "On what planet was Wal-e stranded at the begining of Wal-e?",
-//     "In the 2012 film 'Brave,' eating magic cake turns Merida's mom into what?",
-
-
-// "The Good Dinosaur", "Inside Out", "Monster's University", "Finding Dory"],
-//     ["Earth", "Jupiter", "Mars", "Saturn"],
-//     ["Bear", "Witch", "Goat", "Donkey"],
 
 // Get all questions into their own object with appropriate properties.
     // Question
     // Anwer choices
 let question = [
-    "question 1",
-    "question 2",
-    "question 3",
+"Since 2006, Pixar has released at least one film per year. In 2014 however, that was not the case. Which film's delay caused this?",
+"On what planet was Wal-e stranded at the begining of Wal-e?",
+"In the 2012 film 'Brave,' eating magic cake turns Merida's mom into what?",
+"Flik and his fellow ants are bullied by who in the 1998 Pixar film 'A Bug's Life.'",
+"What animated feature film was Pixar's first release in 1995?",
+"While on their way to find Nemo, Marlin and Dory almost become whale food! What kind of whale carries the two to Port Jackson?",
+"What is the name of the girl in Inside Out?",
+"What is the name of this menacing shark in Finding Nemo?",
+"Which emotion is associated with Riley Anderson's earliest memory of broccoli?",
+"What does Bomb Voyage say in French about Incrediboy's super outfit?",
+"In 'Monster's Inc,' who's job is it to get screams?",
+"What is Miguel's grandmother's name?",
+"In 'Cars', what color was Mater before he turned rusty?",
 ];
 
 let choices = [
-    ["Correct 1", "Incorrect", "Incorrect", "Incorrect"],
-    ["Correct 2", "Incorrect", "Incorrect", "Incorrect"],
-    ["Correct 3", "Incorrect", "Incorrect", "Incorrect"],
+["The Good Dinosaur", "Inside Out", "Monster's University", "Finding Dory"],
+["Mars", "Jupiter", "Earth", "Saturn"],
+["A Witch", "A Bear", "A Goat", "A Donkey"],
+["Flies", "Wasps", "Lotus", "Grasshoppers"],
+["Toy Story", "Cars", "A Bug's Life", "Finding Nemo"],
+["Beluga Whale", "Humpback Whale", "Killer Whale", "Blue Whale"],
+["Boo", "Riley", "Merida", "Colette"],
+["Bruce", "Woody", "Roger", "Keith"],
+["Sadness", "Joy", "Anger", "Disgust"],
+["It's Tragic", "It's Ridiculous", "It's Laughable", "It's Amateur"], 
+["Scarers", "Yellers", "Screamers", "Monsters"],
+["Mama Tia", "Abuelita Elena", "Mama Imelda", "Abuelita Coco"],
+["Red", "Yellow", "Baby Blue", "Purple"],
 ];
 
 let correctChoice = [
-    "Correct 1", 
-    "Correct 2", 
-    "Correct 3", 
+"The Good Dinosaur",
+"Earth",
+"A Bear",
+"Grasshoppers",
+"Toy Story",
+"Blue Whale",
+"Riley",
+"Bruce",
+"Disgust",
+"It's Ridiculous",
+"Scarers",
+"Mama Elena",
+"Baby Blue",
 ];
 
 let correctChoiceImage = [
-    "<img src='assets/images/the-good-dinosaur.jpg'>", 
-    "<img src='assets/images/the-good-dinosaur.jpg'>", 
-    "<img src='assets/images/the-good-dinosaur.jpg'>", 
+    "<img src='assets/images/gooddino.gif'>", 
+    "<img src='assets/images/wale.gif'>",
+    "<img src='assets/images/bravemotherbear.gif'>",
+    "<img src='assets/images/antsgrasshoppers.gif'>",
+    "<img src='assets/images/toystory.gif'>",
+    "<img src='assets/images/findingnemo.gif'>",
+    "<img src='assets/images/riley.gif'>",
+    "<img src='assets/images/bruce.gif'>",
+    "<img src='assets/images/disgust.gif'>",
+    "<img src='assets/images/bombvoyage.jpg'>",
+    "<img src='assets/images/scarers.gif'>",
+    "<img src='assets/images/abuelitaelena.gif'>",
+    "<img src='assets/images/materbabyblue.jpg'>", 
 ];
 
 let perQuestionTime = 5;
@@ -40,7 +72,7 @@ let countDown;
 let correct = 0;
 let incorrect = 0;;
 let notAnswered = 0;
-let image;
+let userSelection;
 
 
 // For building the question row div
@@ -107,6 +139,7 @@ function serveQuestion () {
     qChoiceThreeText = choiceThreeDiv.text(choices[questionCount][2]);
     qChoiceFourText = choiceFourDiv.text(choices[questionCount][3]); 
     
+    $(".timer-area").append("<div class='col'>" + "<p id='timer'>" + perQuestionTime + "</p>" + "</div>");
     $(".question-area").append(qColDiv);
     $(".choice-area1").append(qChoiceOneCol, qChoiceTwoCol);
     $(".choice-area2").append(qChoiceThreeCol, qChoiceFourCol);    
@@ -129,7 +162,7 @@ function serveEndState() {
 function correctAnswerExperience() {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Correct!!" + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
-    setTimeout(cycleThroughQuestions,1000*5);
+    setTimeout(actionsBasedOnCount,1000*5);
 }
 
 // When the user gets the answer wrong, this builds the experience they'll see before being moved on to the next question.
@@ -137,7 +170,7 @@ function wrongAnswerExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, that's incorrect." + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
     $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
-    setTimeout(cycleThroughQuestions,1000*5);
+    setTimeout(actionsBasedOnCount,1000*5);
 
 }
 
@@ -146,17 +179,16 @@ function outOfTimeExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, time's up!" + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
     $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
-    setTimeout(cycleThroughQuestions,1000*5);
-
+    setTimeout(actionsBasedOnCount,1000*5);
 }
 
-function perQuestionCountDown () {
+function actionsBasedOnTime () {
     countDown = setInterval(countDownLogic, 1000);    
     
     function countDownLogic () {
         if (perQuestionTime > 0) {
-            $(".timer-area").text(perQuestionTime + " Seconds remaining");
             perQuestionTime--;
+            $("#timer").text(perQuestionTime);
             
         }
         
@@ -171,34 +203,38 @@ function perQuestionCountDown () {
     }
 }
 
-function cycleThroughQuestions() {
+function actionsBasedOnCount() {
+    console.log(userSelection === correctChoice[questionCount]);
     if (questionCount < question.length) {
         questionCount++;
+        console.log("Question Count: " + questionCount);
+        console.log("Array length: " + question.length);
         $(".row").empty();
         serveQuestion();
         perQuestionTime = 5;
-        perQuestionCountDown();
-    }
-    if (questionCount === question.length) {
+        actionsBasedOnTime();
+    }else if (questionCount === question.length) {
         serveEndState();
     }
+    
 }
 
 
 serveInitialState();
+// serveEndState();
 
 $(document).on("click", ".btn", function (event){
     $(".row").empty();
     questionCount = 0;
     serveQuestion();
-    perQuestionCountDown();
+    actionsBasedOnTime();
     
     
     
 });
 
 $(document).on("click", ".choice", function (event){
-    let userSelection = $(this).text();
+    userSelection = $(this).text();
     
     if (userSelection === correctChoice[questionCount]) {
         correct++;
@@ -226,7 +262,6 @@ $(document).on("click", ".play-again", function (event){
     incorrect = 0;
     notAnswered = 0;
     serveQuestion();
-    perQuestionCountDown();
 });
 
 // Run out of time in the middle of the game
