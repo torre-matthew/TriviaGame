@@ -7,15 +7,20 @@ let question = [
 "On what planet was Wal-e stranded at the begining of Wal-e?",
 "In the 2012 film 'Brave,' eating magic cake turns Merida's mom into what?",
 "Flik and his fellow ants are bullied by who in the 1998 Pixar film 'A Bug's Life.'",
+"Who said this? 'I never look back, darling. It distracts from the now.'",
 "What animated feature film was Pixar's first release in 1995?",
 "While on their way to find Nemo, Marlin and Dory almost become whale food! What kind of whale carries the two to Port Jackson?",
 "What is the name of the girl in Inside Out?",
 "What is the name of this menacing shark in Finding Nemo?",
+"Who said this? 'He touched the butt!'",
 "Which emotion is associated with Riley Anderson's earliest memory of broccoli?",
+"Who said this? 'All right, we did not die today. I'd call that an unqualified success.'",
 "What does Bomb Voyage say in French about Incrediboy's super outfit?",
 "In 'Monster's Inc,' who's job is it to get screams?",
 "What is Miguel's grandmother's name?",
+"Who said this? 'Our fate lives within us. You only have to be brave enough to see it.'",
 "In 'Cars', what color was Mater before he turned rusty?",
+"Who said this? 'If you ain't scared you ain't alive.'",
 ];
 
 let choices = [
@@ -23,15 +28,20 @@ let choices = [
 ["Mars", "Jupiter", "Earth", "Saturn"],
 ["A Witch", "A Bear", "A Goat", "A Donkey"],
 ["Flies", "Wasps", "Lotus", "Grasshoppers"],
+["Abuelita Elena - Coco", "Edna - The Incredibles", "Dory - Finding Dory", "Joy - Inside Out"],
 ["Toy Story", "Cars", "A Bug's Life", "Finding Nemo"],
 ["Beluga Whale", "Humpback Whale", "Killer Whale", "Blue Whale"],
 ["Boo", "Riley", "Merida", "Colette"],
 ["Bruce", "Woody", "Roger", "Keith"],
+["Dash - The Incredibles", "Miguel - Coco", "Russell - Up", "Tad - Finding Nemo"],
 ["Sadness", "Joy", "Anger", "Disgust"],
+["Fear - Inside Out", "Marlin - Finding Nemo", "Woody - Toy Story", "Joy - Inside Out"],
 ["It's Tragic", "It's Ridiculous", "It's Laughable", "It's Amateur"], 
 ["Scarers", "Yellers", "Screamers", "Monsters"],
 ["Mama Tia", "Abuelita Elena", "Mama Imelda", "Abuelita Coco"],
+["Miguel - Coco", "Buzz Lightyear - Toy Story", "Merida - Brave", "Frozone - The Incredibles"],
 ["Red", "Yellow", "Baby Blue", "Purple"],
+["Fear - Inside Out", "Butch - The Good Dinosaur", "Anger - Inside Out", "Mater - Cars"],
 ];
 
 let correctChoice = [
@@ -39,15 +49,20 @@ let correctChoice = [
 "Earth",
 "A Bear",
 "Grasshoppers",
+"Edna - The Incredibles",
 "Toy Story",
 "Blue Whale",
 "Riley",
 "Bruce",
+"Tad - Finding Nemo",
 "Disgust",
+"Fear - Inside Out",
 "It's Ridiculous",
 "Scarers",
 "Abuelita Elena",
+"Merida - Brave",
 "Baby Blue",
+"Butch - The Good Dinosaur",
 ];
 
 let correctChoiceImage = [
@@ -55,18 +70,23 @@ let correctChoiceImage = [
     "<img src='assets/images/wale.gif'>",
     "<img src='assets/images/bravemotherbear.gif'>",
     "<img src='assets/images/antsgrasshoppers.gif'>",
+    "<img src='assets/images/edna.gif'>",
     "<img src='assets/images/toystory.gif'>",
     "<img src='assets/images/findingnemo.gif'>",
     "<img src='assets/images/riley.gif'>",
     "<img src='assets/images/bruce.gif'>",
+    "<img src='assets/images/tadnemo.gif'>",
     "<img src='assets/images/disgust.gif'>",
+    "<img src='assets/images/fearinsideout.gif'>",
     "<img src='assets/images/bombvoyage.jpg'>",
     "<img src='assets/images/scarers.gif'>",
     "<img src='assets/images/abuelitaelena.gif'>",
-    "<img src='assets/images/materbabyblue.jpg'>", 
+    "<img src='assets/images/merida.gif'>",
+    "<img src='assets/images/materbabyblue.jpg'>",
+    "<img src='assets/images/butch.gif'>", 
 ];
 
-let perQuestionTime = 20;
+let perQuestionTime = 25;
 let questionCount = 0;
 let countDown;
 let correct = 0;
@@ -148,13 +168,13 @@ function serveQuestion () {
 // Welcom Screen
 function serveInitialState() {
     $(".intro-text").append("<div class='col'>" + "<p id='welcome'> Pixar has given us so many great movies over the years. Test your knowledge of all things Pixar with this trivia challenge." + "</p>" + "</div>");                         
-    $(".ins").append("<div class='col'>" + "<p id='game-ins'> You'll have 20 seconds per questions to answer 13 questions. Good Luck!" + "</p>" + "</div>");
+    $(".ins").append("<div class='col'>" + "<p id='game-ins'> You'll have 25 seconds per questions to answer 18 questions. Good Luck!" + "</p>" + "</div>");
     $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg'> Let's get to it!!" + "</button>" + "</div>");
 }
 
 function serveEndState() {
     $(".intro-text").append("<div class='col'>" + "<p id='welcome'> Here's how you did." + "</p>" + "</div>");                         
-    $(".ins").append("<div class='col'>" + "<p id='results-summary'>" + correct + " Answered Correctly" + "</p>" + "<p id='results-summary'>" + incorrect + " Answered Incorrectly" + "</p>" + "<p id='results-summary'>" + notAnswered + " Unaswered" + "</p>" + "</div>");
+    $(".ins").append("<div class='col'>" + "<p id='results-summary'>" + correct + " Correct" + "</p>" + "<p id='results-summary'>" + incorrect + " Incorrectly" + "</p>" + "<p id='results-summary'>" + notAnswered + " Unaswered" + "</p>" + "</div>");
     $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg play-again'> Play Again" + "</button>" + "</div>");
 }
 
@@ -169,7 +189,7 @@ function correctAnswerExperience() {
 function wrongAnswerExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, that's incorrect." + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
-    $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
+    $(".result-text").append("<div class='col'>" + "<p id='correct'>" + correctChoice[questionCount] + " is the correct answer" + "</p>" + "</div>");
     setTimeout(actionsBasedOnCount,1000*6);
 
 }
@@ -211,7 +231,7 @@ function actionsBasedOnCount() {
         console.log("Array length: " + question.length);
         $(".row").empty();
         serveQuestion();
-        perQuestionTime = 20;
+        perQuestionTime = 25;
         actionsBasedOnTime();
     }else {
         $(".row").empty();
@@ -250,7 +270,7 @@ $(document).on("click", ".choice", function (event){
 
 $(document).on("click", ".play-again", function (event){
     questionCount = 0;
-    perQuestionTime = 20;
+    perQuestionTime = 25;
     correct = 0;
     incorrect = 0;
     notAnswered = 0;
