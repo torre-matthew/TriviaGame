@@ -1,60 +1,46 @@
+// "Since 2006, Pixar has released at least one film per year. In 2014 however, that was not the case. Which film's delay caused this?",
+//     "On what planet was Wal-e stranded at the begining of Wal-e?",
+//     "In the 2012 film 'Brave,' eating magic cake turns Merida's mom into what?",
+
+
+// "The Good Dinosaur", "Inside Out", "Monster's University", "Finding Dory"],
+//     ["Earth", "Jupiter", "Mars", "Saturn"],
+//     ["Bear", "Witch", "Goat", "Donkey"],
+
 // Get all questions into their own object with appropriate properties.
     // Question
     // Anwer choices
 let question = [
-    "Since 2006, Pixar has released at least one film per year. In 2014 however, that was not the case. Which film's delay caused this?",
-    "On what planet was Wal-e stranded at the begining of Wal-e?",
-    "In the 2012 film 'Brave,' eating magic cake turns Merida's mom into what?",
-    "question 4",
-    "question 5",
-    "question 6",
-    "question 7",
-    "question 8",
-    "question 9",
-    "question 10",
+    "question 1",
+    "question 2",
+    "question 3",
 ];
 
 let choices = [
-    ["The Good Dinosaur", "Inside Out", "Monster's University", "Finding Dory"],
-    ["Earth", "Jupiter", "Mars", "Saturn"],
-    ["Bear", "Witch", "Goat", "Donkey"],
-    ["Correct", "Incorrect", "Incorrect", "Incorrect"],
-    ["Correct", "Incorrect", "Incorrect", "Incorrect"],
-    ["Correct", "Incorrect", "Incorrect", "Incorrect"],
-    ["Correct", "Incorrect", "Incorrect", "Incorrect"],
-    ["Correct", "Incorrect", "Incorrect", "Incorrect"],
-    ["Correct", "Incorrect", "Incorrect", "Incorrect"],
-    ["Correct", "Incorrect", "Incorrect", "Incorrect"],
+    ["Correct 1", "Incorrect", "Incorrect", "Incorrect"],
+    ["Correct 2", "Incorrect", "Incorrect", "Incorrect"],
+    ["Correct 3", "Incorrect", "Incorrect", "Incorrect"],
 ];
 
 let correctChoice = [
-    "The Good Dinosaur", 
-    "Earth", 
-    "Bear", 
-    "Correct", 
-    "Correct", 
-    "Correct", 
-    "Correct", 
-    "Correct", 
-    "Correct", 
-    "Correct"
+    "Correct 1", 
+    "Correct 2", 
+    "Correct 3", 
 ];
 
 let correctChoiceImage = [
-    "../images/the-good-dinosaur.jpg", 
-    "../images/walle.jpg", 
-    "../images/bravemotherbear.gif", 
-    "Image", 
-    "Image", 
-    "Image", 
-    "Image", 
-    "Image", 
-    "Image", 
-    "Image"
+    "assets/images/the-good-dinosaur.jpg", 
+    "assets/images/the-good-dinosaur.jpg", 
+    "assets/images/the-good-dinosaur.jpg", 
 ];
 
-let perQuestionTime = 3;
+let perQuestionTime = 5;
 let questionCount = 0;
+let countDown;
+let correct = 0;
+let incorrect = 0;;
+let notAnswered = 0;
+let image;
 
 
 // For building the question row div
@@ -133,43 +119,56 @@ function serveInitialState() {
     $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg'> Let's get to it!!" + "</button>" + "</div>");
 }
 
+function serveEndState() {
+    $(".intro-text").append("<div class='col'>" + "<p id='welcome'> Here's how you did." + "</p>" + "</div>");                         
+    $(".ins").append("<div class='col'>" + "<p id='results-summary'>" + correct + " Answered Correctly" + "</p>" + "<p id='results-summary'>" + incorrect + " Answered Incorrectly" + "</p>" + "<p id='results-summary'>" + notAnswered + " Unaswered" + "</p>" + "</div>");
+    $(".start-game-area").append("<div class='col'>" + "<button type='button' class='btn btn-primary btn-lg play-again'> Play Again" + "</button>" + "</div>");
+}
+
 // When the user gets the answer correct, this builds the experience they'll see before being moved on to the next question.
 function correctAnswerExperience() {
+    image = correctChoiceImage[questionCount];
+    console.log(image); 
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Correct!!" + "</p>" + "</div>");
-    $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
+    $(".result-image").append("<div class='col'>" + '<img src="image">' + "</div>");
+    setTimeout(cycleThroughQuestions,1000*5);
 }
 
 // When the user gets the answer wrong, this builds the experience they'll see before being moved on to the next question.
 function wrongAnswerExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, that's incorrect." + "</p>" + "</div>");
-    $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
+    $(".result-image").append("<div class='col'>" + "<img src='correctChoiceImage[questionCount]'>" + "</div>");
     $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
+    setTimeout(cycleThroughQuestions,1000*5);
 
 }
 
 // When the user runs out of time, this builds the experience they'll see before being moved on to the next question.
 function outOfTimeExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, time's up!" + "</p>" + "</div>");
-    $(".result-image").append("<div class='col'>" + "<img src=correctChoiceImage[0]>" + "</div>");
+    $(".result-image").append("<div class='col'>" + "<img src='correctChoiceImage[questionCount]'>" + "</div>");
     $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
+    setTimeout(cycleThroughQuestions,1000*5);
 
 }
 
 function perQuestionCountDown () {
-    let countDown = setInterval(countDownLogic, 1000);    
+    countDown = setInterval(countDownLogic, 1000);    
     
     function countDownLogic () {
-        if (perQuestionTime >= 0) {
-            $(".timer-area").text(perQuestionTime);
+        if (perQuestionTime > 0) {
+            $(".timer-area").text(perQuestionTime + " Seconds remaining");
             perQuestionTime--;
             
         }
         
         if (perQuestionTime === 0) {
+            notAnswered++;
             $(".row").empty();
             outOfTimeExperience();
             clearInterval(countDown);
-            setTimeout(cycleThroughQuestions,1000*3);
+            console.log("Not Answered Count: " + notAnswered);
+            
         }
     }
 }
@@ -179,10 +178,11 @@ function cycleThroughQuestions() {
         questionCount++;
         $(".row").empty();
         serveQuestion();
-        perQuestionTime = 3;
+        perQuestionTime = 5;
         perQuestionCountDown();
-    }else {
-        alert("Game Over Sucka!!");
+    }
+    if (questionCount === question.length) {
+        serveEndState();
     }
 }
 
@@ -195,29 +195,47 @@ $(document).on("click", ".btn", function (event){
     serveQuestion();
     perQuestionCountDown();
     
+    
+    
 });
 
+$(document).on("click", ".choice", function (event){
+    let userSelection = $(this).text();
+    
+    if (userSelection === correctChoice[questionCount]) {
+        correct++;
+        $(".row").empty();
+        correctAnswerExperience();
+        clearInterval(countDown);
+        
+        
+    }else {
+        incorrect++;
+        $(".row").empty();
+        wrongAnswerExperience();
+        clearInterval(countDown);
+    }
+    
+    console.log("Correct Count: " + correct);
+    console.log("Incorrect Count: " + incorrect);
+        
+});
 
+$(document).on("click", ".play-again", function (event){
+    $(".row").empty();
+    questionCount = 0;
+    perQuestionTime = 5;
+    correct = 0;
+    incorrect = 0;;
+    notAnswered = 0;
+    serveQuestion();
+    perQuestionCountDown();
+});
 
-// Function that will reveal the first question when user selects to start the game.
-
-// Start a timer when the game starts that gives 30 seconds to answer the question
-    // If the question isn't answered in 30 seconds, 
-        // tell them they are out of time, show the correct answer automatically.
-        // record that as an unanswered question
-    // If the select the correct answer
-        // tell them it's corrrect with some other cute content,
-        // record that as an answered question with either correct or incorrrect. 
-        // move them on to the next question with timer.
-    // If the select the wrong answer, 
-        // tell them it's wrong, 
-        // show them the right answer
-        // record that as incorrect 
-        // move them on to the next question with a timer.
-
-
-// After the last question, show their results
-    // Correctly Answered questions
-    // Incorrect
-    // Unanswered
+// Run out of time in the middle of the game
+// Run out of time on last question
+// Correct in the middle of the game
+// Correct last question
+// Wrong in the middle of the game
+// Wrong on last question
     
