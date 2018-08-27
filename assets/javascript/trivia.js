@@ -159,7 +159,7 @@ function serveQuestion () {
     qChoiceThreeText = choiceThreeDiv.text(choices[questionCount][2]);
     qChoiceFourText = choiceFourDiv.text(choices[questionCount][3]); 
     
-    $(".timer-area").append("<div class='col'>" + "<p id='timer'>" + perQuestionTime + "</p>" + "</div>");
+    $(".timer-area").append("<div class='col'>" + "<p id='timer'>" + perQuestionTime + "</p>" + "<p id='questioncount'>" + (questionCount + 1) + " of 18" + "</p>" + "</div>");
     $(".question-area").append(qColDiv);
     $(".choice-area1").append(qChoiceOneCol, qChoiceTwoCol);
     $(".choice-area2").append(qChoiceThreeCol, qChoiceFourCol);    
@@ -198,7 +198,7 @@ function wrongAnswerExperience () {
 function outOfTimeExperience () {
     $(".result-display").append("<div class='col'>" + "<p id='correct'> Sorry, time's up!" + "</p>" + "</div>");
     $(".result-image").append("<div class='col'>" + correctChoiceImage[questionCount] + "</div>");
-    $(".result-text").append("<div class='col'>" + "<p id='correct'> We were looking for: " + correctChoice[questionCount] + "</p>" + "</div>");
+    $(".result-text").append("<div class='col'>" + "<p id='correct'>" + correctChoice[questionCount] + " is the correct answer" + "</p>" + "</div>");
     setTimeout(actionsBasedOnCount,1000*6);
 }
 
