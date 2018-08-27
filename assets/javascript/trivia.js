@@ -11,7 +11,7 @@ let question = [
 "What animated feature film was Pixar's first release in 1995?",
 "While on their way to find Nemo, Marlin and Dory almost become whale food! What kind of whale carries the two to Port Jackson?",
 "What is the name of the girl in Inside Out?",
-"What is the name of this menacing shark in Finding Nemo?",
+"What is the name of the menacing great white shark in Finding Nemo?",
 "Who said this? 'He touched the butt!'",
 "Which emotion is associated with Riley Anderson's earliest memory of broccoli?",
 "Who said this? 'All right, we did not die today. I'd call that an unqualified success.'",
